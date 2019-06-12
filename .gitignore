@@ -64,3 +64,8 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+#Connection strings
+**/postgresql-con/username-p.txt
+**/postgresql-con/password-p.txt
+**/postgresql-con/hostname-p.txt
