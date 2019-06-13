@@ -15,12 +15,12 @@ spec:
         app: postgresql-sample
     spec:
       containers:
-      - image: "acrreplace.azurecr.io/reporeplace/imagereplace:replacetag"
+      - image: "brusmx/postgresql-python-sample:1.0"
         imagePullPolicy: Always
         name: postgresql-sample
         volumeMounts:
         - name: postgresql-con
-          mountPath: "/usr/src/app"
+          mountPath: "/tmp/postgresql-con"
           readOnly: true
         resources:
           requests:

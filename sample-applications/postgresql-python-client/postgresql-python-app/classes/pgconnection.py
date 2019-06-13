@@ -90,7 +90,7 @@ class PGConnection:
     
             
     def __init__(self):
-        self.path_to_creds = '/usr/src/app/postgresql-con'
+        self.path_to_creds = '/tmp/postgresql-con'
         self.table    = 'postgres'
         self.obtain_credentials()
         self.try_to_connect()
