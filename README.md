@@ -146,7 +146,11 @@ az ad sp create-for-rbac \
 }
 ```
 
-### Metrics Config for PostgreSQL and Redis
+### Generic Metrics Configuration for PostgreSQL and Redis
+
+Select desired Metric and Aggregation types:
+- [PostgreSQL](https://docs.microsoft.com/en-us/azure/azure-monitor/platform/metrics-supported#microsoftdbforpostgresqlservers)
+- [Redis Cache](https://docs.microsoft.com/en-us/azure/azure-monitor/platform/metrics-supported#microsoftcacheredis)
 
 Create a file called `metrics-config.yaml`, add in your own values:
 
