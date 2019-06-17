@@ -1,0 +1,16 @@
+default: &default
+  adapter: redis
+  url: <%= ENV['REDIS_HOST'] %>
+  password: <%= ENV['REDIS_PASS'] %>
+
+  
+development:
+  <<: *default
+  channel_prefix: Blog_development
+
+test:
+  adapter: async
+
+production:
+  <<: *default
+  channel_prefix: Blog_production
