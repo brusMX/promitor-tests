@@ -90,11 +90,10 @@ You will obtain the following service principal. You will need this information 
 
 ### Generic Metrics Configuration for PostgreSQL and Redis
 
-
-Download the sample of `metrics-config.yaml` file:
+Download the sample file of `metrics-config.yaml` file, you can use `wget` or `curl -O`:
 
 ```bash
-wget https://raw.githubusercontent.com/brusMX/promitor-tests/master/promitor/helm-install/helm-rbac.yaml
+wget https://raw.githubusercontent.com/brusMX/promitor-tests/master/promitor/metrics-config.yaml
 ```
 
 Make sure to replace the values of `<app-id>`, `<app-key>`, `<tenant-id>` and `<sub-id>` with your actual values. 
