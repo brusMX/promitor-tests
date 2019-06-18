@@ -2,14 +2,14 @@
 
 There are 2 sample applications to start getting metrics into your cluster, `postgresql-python-sample` and `redis-ruby-sample`.
 
-### Requirements
+## Requirements to deploy sample apps
 
 1. AKS cluster up and running.
 2. Azure Redis credentials.
 3. Azure PostgreSQL credentials.
 4. Terminal connected with Kubectl to your cluster.
 
-### Easy steps - Summary
+## Deployment
 
 1. Create two folders: `postgres-creds` and `redis-creds`. Paste your credentials in them like the instructions suggest.
 2. Create a kubernetes secret.
@@ -56,7 +56,7 @@ kubectl apply -f sample-applications/postgresql-python-client/postgresql-python-
 
 See the progress of the deployment in the describe:
 
-```
+```bash
 kubectl describe po -l app=postgresql-sample
   Type    Reason     Age   From                               Message
   ----    ------     ----  ----                               -------
@@ -84,7 +84,7 @@ Inserted 163 individuals
 
 To deploy the ruby app that consumes Redis you can run the following commands from the root of this directory.
 
-#### Put credentials in a folder
+#### Store credentials in a folder
 
 Create secrets for Redis credentials:
 
