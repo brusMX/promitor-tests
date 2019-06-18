@@ -132,9 +132,9 @@ kubectl port-forward svc/promitor-agent-scraper 8080:8888
 
 Navigate to the following URL in your browser:
 
-- <http://localhost:8080/metrics>
+- <http://127.0.0.1:8080/metrics>
 
-You should see the metrics like in the following sample output:
+It can take some minutes, depending on the scraping schedule, but you should see the metrics like in the following sample output:
 
 ```bash
 # HELP generic_postgresql_scraper test
@@ -143,6 +143,12 @@ generic_postgresql_scraper{resource_uri="subscriptions/<sub-id>/resourceGroups/<
 # HELP promitor_ratelimit_arm Indication how many calls are still available before Azure Resource Manager is going to throttle us.
 # TYPE promitor_ratelimit_arm gauge
 promitor_ratelimit_arm{tenant_id=<tenant-id>,subscription_id=<sub-id>,app_id=<app-id>} 11982 1560790804101
+```
+
+If you are having issues seeing your metrics, you can see Promitor's logs with the following command:
+
+```bash
+kubectl logs -l app=promitor-agent-scraper
 ```
 
 ## Sending logs from Azure Monitor to Logstash
