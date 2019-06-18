@@ -5,7 +5,7 @@ class ArticlesController < ApplicationController
   # GET /articles
   # GET /articles.json
   def index
-    @articles = fetch_articles_redis 
+    @articles = fetch_articles_redis
   end
 
   # GET /articles/1

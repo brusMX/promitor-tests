@@ -35,7 +35,7 @@ Create secret with that folder
 kubectl create secret generic postgresql-user-pass --from-file=postgres-creds
 ```
 
-Leave no mark
+The credentials are now stored in the cluster. You can delete them from your computer
 
 ```bash
 rm -rf postgres-creds
@@ -79,13 +79,19 @@ To deploy the ruby app that consumes Redis you can run the following commands fr
 Create secrets for Redis credentials:
 
 ```bash
+mkdir redis-creds
 # Create files to avoid escaping character
-echo -n '< REPLACE WITH REDIS USERNAME >' > ./username-r.txt
-echo -n '< REPLACE WITH REDIS PASS >' > ./password-r.txt
-echo -n '< REPLACE WITH POSTGRESQL HOSTNAME >' > ./hostname-r.txt
-kubectl create secret generic redis-user-pass --from-file=./username-r.txt --from-file=./password-r.txt --from-file=./hostname-r.txt
-rm ./username-r.txt && rm ./password-r.txt
+echo -n '< REPLACE WITH REDIS PASS >' > redis-creds/password-r.txt
+echo -n '< REPLACE WITH POSTGRESQL HOSTNAME >' > redis-creds/hostname-r.txt
 ```
+
+Create a k8s secret with that folder:
+
+```bash
+kubectl create secret generic redis-creds --from-file=redis-creds
+```
+
+Deploy your redis application
 
 ```bash
 kubectl apply -f sample-applications/redis-ruby-client/redis-ruby-deployment.yaml

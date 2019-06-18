@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-sample-deployment
+  labels:
+    deploy: redis-sample
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis-sample
+  template:
+    metadata:
+      labels:
+        app: redis-sample
+    spec:
+      containers:
+      - image: "brusmx/redis-ruby-sample:1.0"
+        imagePullPolicy: Always
+        ports:
+          - name: ruby
+            containerPort: 3000
+        name: redis-sample  
+        resources:
+          requests:
+            memory: "128Mi"
+            cpu: "500m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        env:
+          - name: REDIS_HOST
+            valueFrom:
+              secretKeyRef:
+                name: redis-creds
+                key: hostname-r.txt
+          - name: REDIS_PASS
+            valueFrom:
+              secretKeyRef:
+                name: redis-creds
+                key: password-r.txt
+          - name: PG_HOST
+            valueFrom:
+              secretKeyRef:
+                name: postgresql-user-pass
+                key: hostname-p.txt
+          - name: PG_USER
+            valueFrom:
+              secretKeyRef:
+                name: postgresql-user-pass
+                key: username-p.txt
+          - name: PG_PASS
+            valueFrom:
+              secretKeyRef:
+                name: postgresql-user-pass
+                key: password-p.txt
