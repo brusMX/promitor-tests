@@ -91,11 +91,28 @@ Create a k8s secret with that folder:
 kubectl create secret generic redis-creds --from-file=redis-creds
 ```
 
-Deploy your redis application
+Deploy your redis application:
 
 ```bash
 kubectl apply -f sample-applications/redis-ruby-client/redis-ruby-deployment.yaml
 ```
+
+Wait for your pod to be up and running:
+
+```bash
+kubectl get pods -l app=redis-sample
+---
+NAME                                       READY   STATUS    RESTARTS   AGE
+redis-sample-deployment-7f95f4b86c-ttj6b   1/1     Running   0          6m32s
+```
+
+You can use forward your local port 9090 to connect to that service.
+
+```bash
+kubectl port-forward redis-sample-deployment-7f95f4b86c-ttj6b 9090:3000
+```
+
+Visit [127.0.0.1:9090](127.0.0.1:9090)
 
 ## Sending logs from Azure Monitor to Logstash
 
