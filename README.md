@@ -6,29 +6,24 @@ A repo to ilustrate how to consume Azure Monitor metrics using Promitor. Based o
 
 In order to use the samples in this repo you must have:
 
-- AKS cluster up and running K8s version > 1.12
-- Promitor deployed
-- Azure PostgreSQL deployed
-- Azure Redis Cache Deployed
-- Prometheus
+- [AKS cluster up and running K8s version > 1.12](https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-deploy-cluster)
+- [Azure PostgreSQL deployed](https://docs.microsoft.com/en-us/azure/postgresql/quickstart-create-server-up-azure-cli)
+- [Azure Redis Cache Deployed](https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/cache-python-get-started#create-an-azure-cache-for-redis-on-azure)
 
 ## Summary
 
-  1. Credentials to your previously deployed services in your sub: AKS, PostgreSQL, Redis and LogAnalytics workspace.
-  2. Install Sample applications.
-  3. Install helm in your cluster.
-  4. Deploy prometheus.
-  5. Deploy promitor.
-  6. (Extra) Deploy grafana to see graphs of your info.
+  1. [Install Sample applications.](#run-samples-applications-to-start-consuming-redis-and-postgresql)
+  2. [Install helm in your cluster.](#pre-req-installing-helm)
+  3. [Deploy Promitor.](#deploy-promitor)
+  4. [Deploy prometheus to scrape promitor.](#deploy-prometheus)
+  5. [(Extra) Deploy grafana to see graphs of your info.](#deploy-grafana)
 
 ## Run samples applications to start consuming Redis and PostgreSQL
 
 In this repo, we include a couple of sample applications to start generating metrics of the services.
 Here are the instruction on [How to deploy redis and postgreSQL sample applications](sample-applications)
 
-## Installing Promitor and Prometheus
-
-### Pre-req Installing Helm
+## Pre-req Installing Helm
 
 Install [helm cli in your machine](https://helm.sh/docs/using_helm/#installing-helm), and then install helm on your cluster. 
 To install it on your cluster here is the official AKS documentation on [how to install helm](https://docs.microsoft.com/en-us/azure/aks/kubernetes-helm). Or if TL;DR follow the next commands:
@@ -44,6 +39,8 @@ To install it on your cluster here is the official AKS documentation on [how to 
   ```bash
   helm init --service-account tiller
   ```
+
+## Deploy promitor
 
 ### Obtain Monitoring Reader permissions
 
@@ -109,26 +106,21 @@ Feel free to change these for your desired Metric and Aggregation types:
 - [Redis Cache](https://docs.microsoft.com/en-us/azure/azure-monitor/platform/metrics-supported#microsoftcacheredis)
 
 Also you can see more information in Promitor's official [docs](https://promitor.io/configuration/metrics/).
+After your configuration file is done, you can pass it to helm to install promitor.
 
-### Deploy Promitor
+### Helm install Promitor
 
 ```bash
 helm repo add promitor https://promitor.azurecr.io/helm/v1/repo
 helm install promitor/promitor-agent-scraper --name promitor-agent-scraper -f metrics-config.yaml
 ```
 
-### Deploy Prometheus:
+## Deploy Prometheus
+
+Use a configuration file to indicate Prometheus to scrape data from Promitor.
 
 ```bash
-cat > promitor-scrape-config.yaml <<EOF
-extraScrapeConfigs: |
-  - job_name: promitor-agent-scraper
-    metrics_path: /metrics
-    static_configs:
-      - targets:
-        - promitor-agent-scraper.default.svc.cluster.local:8888
-EOF
-helm install stable/prometheus -f promitor-scrape-config.yaml
+helm install stable/prometheus -f https://raw.githubusercontent.com/brusMX/promitor-tests/master/promitor/promitor-scrape-config.yaml
 ```
 
 ### Viewing Metrics
