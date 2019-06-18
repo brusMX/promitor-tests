@@ -4,7 +4,7 @@ azureAuthentication:
 azureMetadata:
   tenantId: <tenant-id>
   subscriptionId: <sub-id>
-  resourceGroupName: talend
+  resourceGroupName: <resource-group-name>
 metricDefaults:
   aggregation:
     interval: 00:05:00
@@ -13,7 +13,7 @@ metricDefaults:
     schedule: "0 * * ? * *"
 metrics:
   - name: generic_redis_scraper
-    description: "Generic scraper for Redis Cache"
+    description: "Generic scraper for Redis Cache to obtain Total Commands Processed"
     resourceType: Generic
     resourceUri: Microsoft.Cache/Redis/redis-cache-sample
     scraping:
@@ -24,7 +24,7 @@ metrics:
       aggregation:
         type: Average
   - name: generic_postgresql_scraper
-    description: "Generic scraper for PostgreSQL"
+    description: "Generic scraper for PostgreSQL to obtain CPU percent"
     resourceType: Generic
     resourceUri: Microsoft.DBforPostgreSQL/servers/postgresql-sample
     scraping:
