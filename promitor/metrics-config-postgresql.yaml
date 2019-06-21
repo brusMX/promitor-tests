@@ -1,0 +1,190 @@
+azureAuthentication:
+  appId: <app-id>
+  appKey: <app-key>
+azureMetadata:
+  tenantId: <tenant-id>
+  subscriptionId: <sub-id>
+  resourceGroupName: <resource-group-name>
+metricDefaults:
+  aggregation:
+    interval: 00:01:00
+  scraping:
+    schedule: "0 * * ? * *"
+metrics:
+  - name: cpu_percent
+    description: "CPU %"
+    resourceType: PostgreSql
+    serverName: postgresjco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: cpu_percent
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: memory_percent
+    description: "Memory %"
+    resourceType: PostgreSql
+    serverName: postgresjco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: memory_percent
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: io_consumption_percent
+    description: "io consumption %"
+    resourceType: PostgreSql
+    serverName: postgresjco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: io_consumption_percent
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: storage_percent
+    description: "Storage %"
+    resourceType: PostgreSql
+    serverName: postgresjco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: storage_percent
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: storage_used
+    description: "Storage used (bytes)"
+    resourceType: PostgreSql
+    serverName: postgresjco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: storage_used
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: storage_limit
+    description: "Storage limit (bytes)"
+    resourceType: PostgreSql
+    serverName: postgresjco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: storage_limit
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: serverlog_storage_percent
+    description: "Server logs Storage %"
+    resourceType: PostgreSql
+    serverName: postgresjco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: serverlog_storage_percent
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: serverlog_storage_usage
+    description: "Server logs Storage used (bytes)"
+    resourceType: PostgreSql
+    serverName: postgresjco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: serverlog_storage_usage
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: serverlog_storage_limit
+    description: "Server logs Storage limit (bytes)"
+    resourceType: PostgreSql
+    serverName: postgresjco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: serverlog_storage_limit
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: active_connections
+    description: "Active connections count"
+    resourceType: PostgreSql
+    serverName: postgresjco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: active_connections
+      aggregation:
+        type: Count
+        interval: 00:01:00
+  - name: connections_failed
+    description: "Failed connection count"
+    resourceType: PostgreSql
+    serverName: postgresjco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: connections_failed
+      aggregation:
+        type: Count
+        interval: 00:01:00
+  - name: backup_storage_used
+    description: "Backup storage used (bytes)"
+    resourceType: PostgreSql
+    serverName: postgresjco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: backup_storage_used
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: network_bytes_egress
+    description: "Network bytes egress (bytes)"
+    resourceType: PostgreSql
+    serverName: postgresjco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: network_bytes_egress
+      aggregation:
+        type: Total
+        interval: 00:01:00
+  - name: network_bytes_ingress
+    description: "Network bytes ingress (bytes)"
+    resourceType: PostgreSql
+    serverName: postgresjco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: network_bytes_ingress
+      aggregation:
+        type: Total
+        interval: 00:01:00
+  - name: pg_replica_log_delay_in_seconds
+    description: "replica log delay in seconds"
+    resourceType: PostgreSql
+    serverName: postgresjco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: pg_replica_log_delay_in_seconds
+      aggregation:
+        type: Maximum
+        interval: 00:01:00
+  - name: pg_replica_log_delay_in_bytes
+    description: "replica log delay in bytes"
+    resourceType: PostgreSql
+    serverName: postgresjco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: pg_replica_log_delay_in_bytes
+      aggregation:
+        type: Maximum
+        interval: 00:01:00
+  

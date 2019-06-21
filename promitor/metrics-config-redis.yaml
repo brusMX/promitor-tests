@@ -1,0 +1,102 @@
+azureAuthentication:
+  appId: <app-id>
+  appKey: <app-key>
+azureMetadata:
+  tenantId: <tenant-id>
+  subscriptionId: <sub-id>
+  resourceGroupName: <resource-group-name>
+metricDefaults:
+  aggregation:
+    interval: 00:01:00
+  scraping:
+    schedule: "0 * * ? * *"
+metrics:
+  - name: redis_cache_read
+    description: "The amount of data read from the cache in Megabytes per second (MB/s)."
+    resourceType: RedisCache
+    cacheName: cachejco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: CacheRead
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: redis_cache_hits
+    description: "The number of successful key lookups during the specified reporting interval. This maps to keyspace_hits from the Redis INFO command."
+    resourceType: RedisCache
+    cacheName: cachejco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: CacheHits
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: redis_cache_latency
+    description: "The number of failed key lookups during the specified reporting interval. This maps to keyspace_misses from the Redis INFO command."
+    resourceType: RedisCache
+    cacheName: cachejco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: CacheMisses
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: redis_cache_write
+    description: "The amount of data written to the cache in Megabytes per second (MB/s) during the specified reporting interval."
+    resourceType: RedisCache
+    cacheName: cachejco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: CacheWrite
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: redis_cache_connected_clients
+    description: "The number of client connections to the cache during the specified reporting interval. This maps to connected_clients from the Redis INFO command."
+    resourceType: RedisCache
+    cacheName: cachejco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: ConnectedClients
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: redis_cache_errors
+    description: "Specific failures and performance issues that the cache could be experiencing during a specified reporting interval."
+    resourceType: RedisCache
+    cacheName: cachejco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: Errors
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: redis_cache_evicted_keys
+    description: "The number of items evicted from the cache during the specified reporting interval due to the maxmemory limit. This maps to evicted_keys from the Redis INFO command."
+    resourceType: RedisCache
+    cacheName: cachejco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: EvictedKeys
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: redis_cache_expired_keys
+    description: "The number of items expired from the cache during the specified reporting interval. This value maps to expired_keys from the Redis INFO command."
+    resourceType: RedisCache
+    cacheName: cachejco
+    scraping:
+      schedule: "0 */2 * ? * *"
+    azureMetricConfiguration:
+      metricName: ExpiredKeys
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  
