@@ -107,6 +107,22 @@ Feel free to change these for your desired Metric and Aggregation types:
 Also you can see more information in Promitor's official [docs](https://promitor.io/configuration/metrics/).
 After your configuration file is done, you can pass it to helm to install promitor.
 
+### Strongly typed scraper for Redis and PostgreSQL
+
+PostgreSQL and Redis scrapers have been merged into Promitor master branch and will be available in v1.0.0 release in late June/early July.
+
+Right now, you need to use the `tomkerkhove/promitor-agent-scraper-ci:pr596` CI image to get those two new scrappers.
+
+You need to use the `--set` flag in the `helm install` command (below) in order to override the repository and tag to use:
+
+```bash
+--set image.repository='tomkerkhove/promitor-agent-scraper-ci' --set image.tag=pr596
+```
+
+Some sample metrics declaration files for each of these scraper are available in this repo:
+- [Metrics declaration for Redis Cache](./promitor/metrics-config-redis.yaml)
+- [Metrics declaration for PostgreSQL](./promitor/metrics-config-postresql.yaml)
+
 ### Helm install Promitor
 
 ```bash
