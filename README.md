@@ -107,7 +107,7 @@ Feel free to change these for your desired Metric and Aggregation types:
 Also you can see more information in Promitor's official [docs](https://promitor.io/configuration/metrics/).
 After your configuration file is done, you can pass it to helm to install promitor.
 
-### Strongly typed scraper for Redis and PostgreSQL
+### Specific scrapers for Redis and PostgreSQL
 
 PostgreSQL and Redis scrapers have been merged into Promitor master branch and will be available in v1.0.0 release in late June/early July.
 
