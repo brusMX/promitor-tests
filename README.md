@@ -111,12 +111,10 @@ After your configuration file is done, you can pass it to helm to install promit
 
 PostgreSQL and Redis scrapers have been merged into Promitor master branch and will be available in v1.0.0 release in late June/early July.
 
-Right now, you need to use the `tomkerkhove/promitor-agent-scraper-ci:pr596` CI image to get those two new scrappers.
-
 You need to use the `--set` flag in the `helm install` command (below) in order to override the repository and tag to use:
 
 ```bash
---set image.repository='tomkerkhove/promitor-agent-scraper-ci' --set image.tag=pr596
+--set image.repository='tomkerkhove/promitor-agent-scraper' --set image.tag=1.0.0-preview-8
 ```
 
 Some sample metrics declaration files for each of these scraper are available in this repo:
