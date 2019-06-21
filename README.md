@@ -114,7 +114,7 @@ PostgreSQL and Redis scrapers have been merged into Promitor master branch and w
 You need to use the `--set` flag in the `helm install` command (below) in order to override the repository and tag to use:
 
 ```bash
---set image.repository='tomkerkhove/promitor-agent-scraper' --set image.tag=1.0.0-preview-8
+--set image.repository='tomkerkhove/promitor-agent-scraper' --set image.tag='1.0.0-preview-8'
 ```
 
 Some sample metrics declaration files for each of these scraper are available in this repo:
