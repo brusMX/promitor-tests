@@ -121,7 +121,7 @@ You need to use the `--set` flag in the `helm install` command (below) in order 
 
 Some sample metrics declaration files for each of these scraper are available in this repo:
 - [Metrics declaration for Redis Cache](./promitor/metrics-config-redis.yaml)
-- [Metrics declaration for PostgreSQL](./promitor/metrics-config-postresql.yaml)
+- [Metrics declaration for PostgreSQL](./promitor/metrics-config-postgresql.yaml)
 
 ### Helm install Promitor
 
