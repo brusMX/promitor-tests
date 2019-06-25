@@ -81,7 +81,7 @@ resource "azurerm_eventhub_namespace_authorization_rule" "logging" {
 
 resource "azurerm_monitor_diagnostic_setting" "logging" {
   name               = "diagnostic_postgresql"
-  target_resource_id = "${logging_postgresql.id}"
+  target_resource_id = "${azurerm_eventhub.logging_postgresql.id}"
   eventhub_name      = "${azurerm_eventhub.logging_postgresql.name}"
   eventhub_authorization_rule_id  = "${azurerm_eventhub_namespace_authorization_rule.logging.id}"
 
