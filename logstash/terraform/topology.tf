@@ -68,3 +68,35 @@ resource "azurerm_eventhub" "logging_az_functions" {
   partition_count     = 2
   message_retention   = 1
 }
+
+resource "azurerm_eventhub_namespace_authorization_rule" "logging" {
+  name                = "authorization_rule"
+  namespace_name      = "${azurerm_eventhub_namespace.logging.name}"
+  resource_group_name = "${azurerm_resource_group.logging.name}"
+
+  listen = true
+  send   = true
+  manage = true
+}
+
+resource "azurerm_monitor_diagnostic_setting" "logging" {
+  name               = "diagnostic_postgresql"
+  target_resource_id = "${logging_postgresql.id}"
+  eventhub_name      = "${azurerm_eventhub.logging_postgresql.name}"
+  eventhub_authorization_rule_id  = "${azurerm_eventhub_namespace_authorization_rule.logging.id}"
+
+  logs [
+    {
+    category = "PostgreSQLLogs"
+    enabled  = true
+    },
+    {
+    category = "QueryStoreRuntimeStatistics"
+    enabled  = true
+    },
+    {
+    category = "QueryStoreWaitStatistics"
+    enabled  = true
+    }
+  ]
+}
