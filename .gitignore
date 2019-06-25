@@ -69,3 +69,8 @@ $RECYCLE.BIN/
 **/postgresql-con/username-p.txt
 **/postgresql-con/password-p.txt
 **/postgresql-con/hostname-p.txt
+
+#Linux
+
+# virtualenvs
+.venv
