@@ -30,7 +30,7 @@ spec:
             cpu: "1000m"
         env:
           - name: REDIS_PORT
-            value: 6379
+            value: "6379"
           - name: REDIS_HOST
             valueFrom:
               secretKeyRef:

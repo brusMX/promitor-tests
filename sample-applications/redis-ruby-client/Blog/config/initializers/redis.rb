@@ -10,8 +10,8 @@ else
     print ("Error. Redis host is empty")
 end
 
-port = 6380
-    
+port = 6379
+
 if ENV["REDIS_PORT"]
     port = ENV["REDIS_PORT"]
 end 
