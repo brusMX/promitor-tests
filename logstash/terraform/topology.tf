@@ -4,7 +4,7 @@ resource "azurerm_resource_group" "logging" {
 }
 
 resource "azurerm_storage_account" "logging" {
-  name                     = "acctestaccs"
+  name                     = "loggingstaccnt"
   resource_group_name      = "${azurerm_resource_group.logging.name}"
   location                 = "${var.region}"
   account_tier             = "Standard"
