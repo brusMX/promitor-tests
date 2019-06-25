@@ -136,6 +136,24 @@ Use a configuration file to indicate Prometheus to scrape data from Promitor.
 helm install stable/prometheus -f https://raw.githubusercontent.com/brusMX/promitor-tests/master/promitor/promitor-scrape-config.yaml
 ```
 
+### Add a Prometheus job to scrape Promitor
+
+Warning: this section works only if you have deployed Prometheus through the
+Prometheus Operator.
+
+In order to tell Prometheus to scape your newly deployed Promitor you can add
+a `ServiceMonitor` resource. This Custom Rsource Definition is provided by
+the Prometheus operator.
+
+```
+kubectl apply -f promitor/service-monitor.yaml
+```
+
+Note: this sample of ServiceMonitor works fine with a Prometheus
+operator deployed with the name `prometheus`. You will need to update the
+`prometheus: prometheus` label on the ServiceMonitor if you used a different
+name.
+
 ### Viewing Metrics
 
 See the promitor service in your local machine by forwarding the port:
