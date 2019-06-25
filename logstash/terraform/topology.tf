@@ -4,7 +4,7 @@ resource "azurerm_resource_group" "logging" {
 }
 
 resource "azurerm_storage_account" "logging" {
-  name                     = "loggingstaccnt"
+  name                     = "loggingstaccnt123"
   resource_group_name      = "${azurerm_resource_group.logging.name}"
   location                 = "${var.region}"
   account_tier             = "Standard"
@@ -29,7 +29,7 @@ resource "azurerm_storage_blob" "logging" {
 }
 
 resource "azurerm_eventhub_namespace" "logging" {
-  name                = "LoggingEventHubNamespace"
+  name                = "LoggingEventHubNamespace123"
   location            = "${azurerm_resource_group.logging.location}"
   resource_group_name = "${azurerm_resource_group.logging.name}"
   sku                 = "Standard"
@@ -81,22 +81,34 @@ resource "azurerm_eventhub_namespace_authorization_rule" "logging" {
 
 resource "azurerm_monitor_diagnostic_setting" "logging" {
   name               = "diagnostic_postgresql"
-  target_resource_id = "${azurerm_eventhub.logging_postgresql.id}"
+  target_resource_id = "${azurerm_postgresql_server.logging.id}"
   eventhub_name      = "${azurerm_eventhub.logging_postgresql.name}"
   eventhub_authorization_rule_id  = "${azurerm_eventhub_namespace_authorization_rule.logging.id}"
 
-  logs [
-    {
+  log {
     category = "PostgreSQLLogs"
     enabled  = true
-    },
-    {
+
+    retention_policy {
+      enabled = false
+    }
+	}
+
+  log {
     category = "QueryStoreRuntimeStatistics"
     enabled  = true
-    },
-    {
+
+    retention_policy {
+      enabled = false
+    }
+	}
+
+  log {
     category = "QueryStoreWaitStatistics"
     enabled  = true
+
+    retention_policy {
+      enabled = false
     }
-  ]
+	}
 }
