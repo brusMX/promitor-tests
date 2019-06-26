@@ -1,0 +1,175 @@
+azureAuthentication:
+  appId: <app-id>
+  appKey: <app-key>
+azureMetadata:
+  tenantId: <tenant-id>
+  subscriptionId: <sub-id>
+  resourceGroupName: <resource-group-name>
+metricDefaults:
+  aggregation:
+    interval: 00:01:00
+  scraping:
+    schedule: "0 * * ? * *"
+metrics:
+  - name: azure_function_bytes_received
+    description: "Data In"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/function-name
+    azureMetricConfiguration:
+      metricName: BytesReceived
+      aggregation:
+        type: Total
+        interval: 00:01:00
+  - name: azure_function_bytes_sent
+    description: "Data Out"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/function-name
+    azureMetricConfiguration:
+      metricName: BytesSent
+      aggregation:
+        type: Total
+        interval: 00:01:00
+  - name: azure_function_http5xx
+    description: "Http Server Errors"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/function-name
+    azureMetricConfiguration:
+      metricName: Http5xx
+      aggregation:
+        type: Total
+        interval: 00:01:00
+  - name: azure_function_memory_working_set
+    description: "Memory working set"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/function-name
+    azureMetricConfiguration:
+      metricName: MemoryWorkingSet
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_function_average_memory_working_set
+    description: "Average memory working set"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/function-name
+    azureMetricConfiguration:
+      metricName: AverageMemoryWorkingSet
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_function_execution_count
+    description: "Function Execution Count"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/function-name
+    azureMetricConfiguration:
+      metricName: FunctionExecutionCount
+      aggregation:
+        type: Total
+        interval: 00:01:00
+  - name: azure_function_execution_untis
+    description: "Function Execution Unit"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/function-name
+    azureMetricConfiguration:
+      metricName: FunctionExecutionUnits
+      aggregation:
+        type: Total
+        interval: 00:01:00
+  - name: azure_function_private_bytes
+    description: "Private Bytes"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/function-name
+    azureMetricConfiguration:
+      metricName: PrivateBytes
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_function_io_read_bytes_per_second
+    description: "IO Read Bytes Per Second"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/function-name
+    azureMetricConfiguration:
+      metricName: IoReadBytesPerSecond
+      aggregation:
+        type: Total
+        interval: 00:01:00
+  - name: azure_function_io_write_bytes_per_second
+    description: "IO Write Bytes Per Second"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/function-name
+    azureMetricConfiguration:
+      metricName: IoWriteBytesPerSecond
+      aggregation:
+        type: Total
+        interval: 00:01:00
+  - name: azure_function_io_other_bytes_per_second
+    description: "IO Other Bytes Per Second"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/function-name
+    azureMetricConfiguration:
+      metricName: IoOtherBytesPerSecond
+      aggregation:
+        type: Total
+        interval: 00:01:00
+  - name: azure_function_io_read_operations_per_second
+    description: "IO Read Operations Per Second"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/function-name
+    azureMetricConfiguration:
+      metricName: IoReadOperationsPerSecond
+      aggregation:
+        type: Total
+        interval: 00:01:00
+  - name: azure_function_io_write_operations_per_second
+    description: "IO Write Operations Per Second"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/function-name
+    azureMetricConfiguration:
+      metricName: IoWriteOperationsPerSecond
+      aggregation:
+        type: Total
+        interval: 00:01:00
+  - name: azure_function_io_other_operations_per_second
+    description: "IO Other Operations Per Second"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/function-name
+    azureMetricConfiguration:
+      metricName: IoOtherOperationsPerSecond
+      aggregation:
+        type: Total
+        interval: 00:01:00
+  - name: azure_function_requests_in_application_queue
+    description: "Requests In Application Queue"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/function-name
+    azureMetricConfiguration:
+      metricName: RequestsInApplicationQueue
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_function_current_assemblies
+    description: "Current Assemblies"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/function-name
+    azureMetricConfiguration:
+      metricName: CurrentAssemblies
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_function_total_app_domains
+    description: "Total App Domains"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/function-name
+    azureMetricConfiguration:
+      metricName: TotalAppDomains
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_function_total_app_domains_unloaded
+    description: "Total App Domains Unloaded"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/function-name
+    azureMetricConfiguration:
+      metricName: TotalAppDomainsUnloaded
+      aggregation:
+        type: Average
+        interval: 00:01:00
