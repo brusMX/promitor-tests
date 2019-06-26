@@ -1,0 +1,31 @@
+azureAuthentication:
+  appId: <app-id>
+  appKey: <app-key>
+azureMetadata:
+  tenantId: <tenant-id>
+  subscriptionId: <sub-id>
+  resourceGroupName: <resource-group-name>
+metricDefaults:
+  aggregation:
+    interval: 00:01:00
+  scraping:
+    schedule: "0 * * ? * *"
+metrics:
+  - name: azure_function_execution_count
+    description: "The total number of execution for the Azure Function"
+    resourceType: Generic
+    resourceUri: Microsoft.Web/sites/jcofunc
+    azureMetricConfiguration:
+      metricName: FunctionExecutionCount
+      aggregation:
+        type: Total
+        interval: 00:01:00
+  # - name: azure_function_httptrigger1_execution_count
+  #   description: "The total number of execution for the Azure Function"
+  #   resourceType: Generic
+  #   resourceUri: microsoft.insights/components/jcofunc
+  #   azureMetricConfiguration:
+  #     metricName: HttpTrigger1 Count
+  #     aggregation:
+  #       type: Total
+  #       interval: 00:01:00
