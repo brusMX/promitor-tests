@@ -17,7 +17,7 @@ resource "azurerm_postgresql_server" "logging_postgresql" {
     name     = "B_Gen5_2"
     capacity = 2
     tier     = "Basic"
-    family   = "Gen4"
+    family   = "Gen5"
   }
 
   storage_profile {

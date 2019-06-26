@@ -3,13 +3,12 @@ resource "azurerm_resource_group" "logging" {
   location = "${var.region}"
 }
 
-resource "random_string" "logging_account" {
-  length  = 10
-  special = false
+resource "random_id" "storage_account" {
+  byte_length = 8
 }
 
 resource "azurerm_storage_account" "logging" {
-  name                     = "loggingstaccnt${random_string.logging_account.result}"
+  name                     = "tfsta${lower(random_id.storage_account.hex)}"
   resource_group_name      = "${azurerm_resource_group.logging.name}"
   location                 = "${var.region}"
   account_tier             = "Standard"
