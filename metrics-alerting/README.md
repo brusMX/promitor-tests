@@ -11,6 +11,7 @@ For this repository we will focus on 3 popular services:
   - [Services in this sample](#Services-in-this-sample)
   - [Alerting](#Alerting)
   - [Azure PostgreSQL](#Azure-PostgreSQL)
+    - [Alert samples](#Alert-samples)
     - [Insights](#Insights)
   - [Azure Redis](#Azure-Redis)
   - [Azure Kubernetes Service](#Azure-Kubernetes-Service)
@@ -30,6 +31,18 @@ Warning Alerts can be set up most informally for informative purposes, and on to
 
 - [Metrics exposed by Azure Monitor (docs)](https://docs.microsoft.com/en-us/azure/azure-monitor/platform/metrics-supported#microsoftdbforpostgresqlservers)
 - [Datadog: Key metrics for PostgreSQL monitoring](https://www.datadoghq.com/blog/postgresql-monitoring/)
+
+### Alert samples
+
+You can find a sample of alerts for PostgreSql here: [PostgreSql alerts](prometheus-rule-pgsql.yaml)
+
+Note: `PrometheusRule` is a custom resource definition provided by Prometheus
+Operator. You might have to change the *Metadata > Labels* section of this file
+to match your own set of labels to identify Prometheus.
+
+```
+kubectl apply -f prometheus-rule-pgsql.yaml
+```
 
 ### Insights
 
