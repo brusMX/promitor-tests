@@ -10,6 +10,7 @@ spec:
   groups:
   - name: azure-monitoring-redis-rules
     rules:
+
     - alert: Redis_Errors
       annotations:
         description: |
@@ -20,6 +21,7 @@ spec:
       for: 1m
       labels:
         severity: warning
+
     - alert: Redis_ServerLoadTooHigh
       annotations:
         description: |
@@ -31,6 +33,7 @@ spec:
       for: 5m
       labels:
         severity: warning
+
     - alert: Redis_CPUTooHigh
       annotations:
         description: |
