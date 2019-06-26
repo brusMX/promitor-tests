@@ -74,3 +74,6 @@ $RECYCLE.BIN/
 
 # virtualenvs
 .venv
+
+# kubeconfig
+kube-cluster-*

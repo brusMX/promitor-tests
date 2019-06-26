@@ -37,7 +37,7 @@ resource "random_id" "eventhub" {
 }
 
 resource "azurerm_eventhub_namespace" "logging" {
-  name                = "LoggingEventHubNamespace-${lower(random_id.eventhub.hex)}"
+  name                = "logging-eventhub-namespace-${lower(random_id.eventhub.hex)}"
   location            = "${azurerm_resource_group.logging.location}"
   resource_group_name = "${azurerm_resource_group.logging.name}"
   sku                 = "Standard"
@@ -46,7 +46,7 @@ resource "azurerm_eventhub_namespace" "logging" {
 }
 
 resource "azurerm_eventhub" "logging_postgresql" {
-  name                = "LoggingPostgresqlEventHub"
+  name                = "logging-postgresql-eventhub"
   namespace_name      = "${azurerm_eventhub_namespace.logging.name}"
   resource_group_name = "${azurerm_resource_group.logging.name}"
   partition_count     = 2
@@ -54,7 +54,7 @@ resource "azurerm_eventhub" "logging_postgresql" {
 }
 
 resource "azurerm_eventhub" "logging_redis" {
-  name                = "LoggingRedisEventHub"
+  name                = "logging-redis-eventhub"
   namespace_name      = "${azurerm_eventhub_namespace.logging.name}"
   resource_group_name = "${azurerm_resource_group.logging.name}"
   partition_count     = 2
@@ -62,7 +62,7 @@ resource "azurerm_eventhub" "logging_redis" {
 }
 
 resource "azurerm_eventhub" "logging_aks" {
-  name                = "LoggingAksEventHub"
+  name                = "logging-aks-eventhub"
   namespace_name      = "${azurerm_eventhub_namespace.logging.name}"
   resource_group_name = "${azurerm_resource_group.logging.name}"
   partition_count     = 2
@@ -70,7 +70,7 @@ resource "azurerm_eventhub" "logging_aks" {
 }
 
 resource "azurerm_eventhub" "logging_az_functions" {
-  name                = "LoggingAzFunctionsEventHub"
+  name                = "logging-az-functions-eventhub"
   namespace_name      = "${azurerm_eventhub_namespace.logging.name}"
   resource_group_name = "${azurerm_resource_group.logging.name}"
   partition_count     = 2
