@@ -165,4 +165,8 @@ If you are having issues seeing your metrics, you can see Promitor's logs with t
 kubectl logs -l app=promitor-agent-scraper
 ```
 
-## Sending logs from Azure Monitor to Logstash
+## Alerting and metrics insights
+
+This is discussed in our seciton of:
+
+- [Opinion of metrics and alerting](metrics-alerting)

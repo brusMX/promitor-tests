@@ -109,8 +109,19 @@ rm -rf redis-creds
 
 #### Deploy your redis application
 
+If you have port `6379` as default you can leave the yaml as is. If your port is different, please change it in the yaml file.
+
+`NOTE:` SSL enforced is not currently supported
+
 ```bash
 kubectl apply -f sample-applications/redis-ruby-client/redis-ruby-deployment.yaml
+```
+
+After your pod is running, and if it's your first time running the application you will need to create the database schemas.
+Run the following command:
+
+```bash
+kubectl exec -it <<REDIS SAMPL POD NAME>> -- rails db:migrate
 ```
 
 #### Verify the deployment
