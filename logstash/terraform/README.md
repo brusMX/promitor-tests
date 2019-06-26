@@ -32,6 +32,8 @@ az ad sp create-for-rbac --skip-assignment
 Then plan and/or apply the configuration
 
 ```
+terraform init
+
 terraform apply -var='subscription_id=7451b8a1-28a8-48c1-9f52-fcbbb137a11d' -var='tenant_id=0333ca35-3f21-4f69-abef-c46d541d019d' -var='kubernetes_client_id=7bd471ef-0774-419b-9b65-5dda1055d4c3' -var='kubernetes_client_secret=e381419b-c1e6-43ee-9338-9f466dd8cfdb'
 ```
 
@@ -45,3 +47,10 @@ Optional variables:
  - region
  - resource_group
 
+Terraform will generate a kubeconfig file to provide credentials to connect on the kubernetes, the file is located in the current working directory and is named after the kubernetes cluster name.
+
+you can test the kubernetes cluster connectivity with this following command
+
+```
+kubectl --kubeconfig=kube-cluster-af9c506364e4fd3d get cs
+```

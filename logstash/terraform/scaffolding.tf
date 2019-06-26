@@ -80,10 +80,7 @@ resource "azurerm_kubernetes_cluster" "logging_kubernetes" {
   }
 }
 
-output "client_certificate" {
-  value = "${azurerm_kubernetes_cluster.logging_kubernetes.kube_config.0.client_certificate}"
-}
-
-output "kube_config" {
-  value = "${azurerm_kubernetes_cluster.logging_kubernetes.kube_config_raw}"
+resource "local_file" "kube_config" {
+  content  = "${azurerm_kubernetes_cluster.logging_kubernetes.kube_config_raw}"
+  filename = "kube-cluster-${lower(random_id.logging_kubernetes.hex)}"
 }
