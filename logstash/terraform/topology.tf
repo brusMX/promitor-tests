@@ -3,8 +3,13 @@ resource "azurerm_resource_group" "logging" {
   location = "${var.region}"
 }
 
+resource "random_string" "logging_account" {
+  length  = 10
+  special = false
+}
+
 resource "azurerm_storage_account" "logging" {
-  name                     = "loggingstaccnt"
+  name                     = "loggingstaccnt${random_string.logging_account.result}"
   resource_group_name      = "${azurerm_resource_group.logging.name}"
   location                 = "${var.region}"
   account_tier             = "Standard"

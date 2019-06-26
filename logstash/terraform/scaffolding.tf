@@ -3,8 +3,13 @@ resource "azurerm_resource_group" "scaffolded_logging_services" {
   location = "${var.region}"
 }
 
+resource "random_string" "logging_postgresql" {
+  length  = 10
+  special = false
+}
+
 resource "azurerm_postgresql_server" "logging_postgresql" {
-  name                = "postgresql-server-1"
+  name                = "postgresql-server-${random_string.logging_postgresql.result}"
   location            = "${azurerm_resource_group.scaffolded_logging_services.location}"
   resource_group_name = "${azurerm_resource_group.scaffolded_logging_services.name}"
 
