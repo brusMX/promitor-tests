@@ -11,10 +11,10 @@ For this repository we will focus on 3 popular services:
   - [Services in this sample](#Services-in-this-sample)
   - [Alerting](#Alerting)
   - [Azure PostgreSQL](#Azure-PostgreSQL)
-    - [Alert samples](#Alert-samples)
-    - [Insights](#Insights)
+    - [Insights on metrics](#Insights-on-metrics)
+    - [Alert sample](#Alert-sample)
   - [Azure Redis](#Azure-Redis)
-  - [Azure Kubernetes Service](#Azure-Kubernetes-Service)
+    - [Insights on metrics](#Insights-on-metrics-1)
 
 
 ## Alerting
@@ -30,21 +30,11 @@ Warning Alerts can be set up most informally for informative purposes, and on to
 **Interesting links:**
 
 - [Metrics exposed by Azure Monitor (docs)](https://docs.microsoft.com/en-us/azure/azure-monitor/platform/metrics-supported#microsoftdbforpostgresqlservers)
+- [Monitor and Tune azure PostgreSQL](https://docs.microsoft.com/en-us/azure/postgresql/concepts-monitoring)
 - [Datadog: Key metrics for PostgreSQL monitoring](https://www.datadoghq.com/blog/postgresql-monitoring/)
 
-### Alert samples
 
-You can find a sample of alerts for PostgreSql here: [PostgreSql alerts](prometheus-rule-pgsql.yaml)
-
-Note: `PrometheusRule` is a custom resource definition provided by Prometheus
-Operator. You might have to change the *Metadata > Labels* section of this file
-to match your own set of labels to identify Prometheus.
-
-```
-kubectl apply -f prometheus-rule-pgsql.yaml
-```
-
-### Insights
+### Insights on metrics
 
 These are proposed categories to give some context to these metrics:
 
@@ -69,6 +59,26 @@ These are proposed categories to give some context to these metrics:
   - Server Log storage used
   - Server Log storage limit
 
+### Alert sample
+
+These alerts in this section are helpful for our case scenario and would probably will not suit your production needs.
+
+You can find a sample of alerts for PostgreSql here: [PostgreSql alerts](prometheus-rule-pgsql.yaml)
+
+Note: `PrometheusRule` is a custom resource definition provided by Prometheus
+Operator. You might have to change the *Metadata > Labels* section of this file
+to match your own set of labels to identify Prometheus.
+
+```bash
+kubectl apply -f prometheus-rule-pgsql.yaml
+```
+
 ## Azure Redis
 
-## Azure Kubernetes Service
+**Interesting links:**
+
+- [Metric definitions](https://docs.microsoft.com/en-us/azure/azure-monitor/platform/metrics-supported#microsoftcacheredis)
+- [Azure docs: How to monitor Redis](https://docs.microsoft.com/en-us/azure/azure-cache-for-redis/cache-how-to-monitor)
+
+### Insights on metrics
+
