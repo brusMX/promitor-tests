@@ -87,11 +87,11 @@ resource "azurerm_eventhub_namespace_authorization_rule" "logging" {
   manage = true
 }
 
-resource "azurerm_monitor_diagnostic_setting" "logging" {
-  name               = "diagnostic_postgresql"
-  target_resource_id = "${azurerm_postgresql_server.logging_postgresql.id}"
-  eventhub_name      = "${azurerm_eventhub.logging_postgresql.name}"
-  eventhub_authorization_rule_id  = "${azurerm_eventhub_namespace_authorization_rule.logging.id}"
+resource "azurerm_monitor_diagnostic_setting" "postgre-logging" {
+  name                           = "diagnostic_postgresql"
+  target_resource_id             = "${azurerm_postgresql_server.logging_postgresql.id}"
+  eventhub_name                  = "${azurerm_eventhub.logging_postgresql.name}"
+  eventhub_authorization_rule_id = "${azurerm_eventhub_namespace_authorization_rule.logging.id}"
 
   log {
     category = "PostgreSQLLogs"
@@ -113,6 +113,58 @@ resource "azurerm_monitor_diagnostic_setting" "logging" {
 
   log {
     category = "QueryStoreWaitStatistics"
+    enabled  = true
+
+    retention_policy {
+      enabled = false
+    }
+  }
+}
+
+resource "azurerm_monitor_diagnostic_setting" "aks-logging" {
+  name                           = "diagnostic_aksl"
+  target_resource_id             = "${azurerm_kubernetes_cluster.logging_kubernetes.id}"
+  eventhub_name                  = "${azurerm_eventhub.logging_aks.name}"
+  eventhub_authorization_rule_id = "${azurerm_eventhub_namespace_authorization_rule.logging.id}"
+
+  log {
+    category = "kube-scheduler"
+    enabled  = true
+
+    retention_policy {
+      enabled = false
+    }
+  }
+
+  log {
+    category = "kube-controller-manager"
+    enabled  = true
+
+    retention_policy {
+      enabled = false
+    }
+  }
+
+  log {
+    category = "cluster-autoscaler"
+    enabled  = true
+
+    retention_policy {
+      enabled = false
+    }
+  }
+
+  log {
+    category = "kube-audit"
+    enabled  = true
+
+    retention_policy {
+      enabled = false
+    }
+  }
+
+  log {
+    category = "kube-apiserver"
     enabled  = true
 
     retention_policy {

@@ -87,3 +87,39 @@ output "client_certificate" {
 output "kube_config" {
   value = "${azurerm_kubernetes_cluster.logging_kubernetes.kube_config_raw}"
 }
+
+data "azurerm_monitor_diagnostic_categories" "postgres_logs" {
+  resource_id = "${azurerm_postgresql_server.logging_postgresql.id}"
+}
+
+output "postgres_logs" {
+  value = "${data.azurerm_monitor_diagnostic_categories.postgres_logs.logs}"
+}
+
+output "postgres_metrics" {
+  value = "${data.azurerm_monitor_diagnostic_categories.postgres_logs.metrics}"
+}
+
+data "azurerm_monitor_diagnostic_categories" "redis_logs" {
+  resource_id = "${azurerm_redis_cache.logging_redis.id}"
+}
+
+output "redis_logs" {
+  value = "${data.azurerm_monitor_diagnostic_categories.redis_logs.logs}"
+}
+
+output "redis_metrics" {
+  value = "${data.azurerm_monitor_diagnostic_categories.redis_logs.metrics}"
+}
+
+data "azurerm_monitor_diagnostic_categories" "aks_logs" {
+  resource_id = "${azurerm_kubernetes_cluster.logging_kubernetes.id}"
+}
+
+output "aks_logs" {
+  value = "${data.azurerm_monitor_diagnostic_categories.aks_logs.logs}"
+}
+
+output "aks_metrics" {
+  value = "${data.azurerm_monitor_diagnostic_categories.aks_logs.metrics}"
+}
