@@ -1,0 +1,43 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    prometheus: prometheus-backends
+    role: alert-rules
+  name: azure-monitoring-redis-rules
+  namespace: admin
+spec:
+  groups:
+  - name: azure-monitoring-redis-rules
+    rules:
+    - alert: Redis_Errors
+      annotations:
+        description: |
+          There are {{$value | printf "%.0f" }} errors on {{$labels.ressource_uri}}
+        title: Redis {{$labels.ressource_uri}} errors
+      expr: |-
+        azure_redis_cache_errors > 0
+      for: 1m
+      labels:
+        severity: warning
+    - alert: Redis_ServerLoadTooHigh
+      annotations:
+        description: |
+          Server load redis reached {{$value | printf "%.2f" }}% for 5 minutes on {{$labels.ressource_uri}}
+          If this counter reaches 100 it means the Redis server has hit a performance ceiling and the CPU can't process work any faster.
+        title: Redis Server Load is high on {{$labels.ressource_uri}}
+      expr: |
+        azure_redis_cache_server_load > 80
+      for: 5m
+      labels:
+        severity: warning
+    - alert: Redis_CPUTooHigh
+      annotations:
+        description: |
+          CPU redis reached {{$value | printf "%.2f" }}% for 5 minutes on {{$labels.ressource_uri}}
+        title: Redis CPU is high on {{$labels.ressource_uri}}
+      expr: |
+        azure_redis_cache_percent_processor_time > 80
+      for: 5m
+      labels:
+        severity: warning

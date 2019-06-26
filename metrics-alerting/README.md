@@ -82,3 +82,43 @@ kubectl apply -f prometheus-rule-pgsql.yaml
 
 ### Insights on metrics
 
+These are proposed categories to give some context to these metrics:
+
+- **CPU and Memory.**
+  - Percent Processor Time
+  - Used Memory
+  - Used Memory Percentage
+  - Used Memory Rss
+- **Operations.**
+  - Total Commands Processed
+  - Get Commands
+  - Set Commands
+  - Operations Per Second
+- **Storage.**
+  - Cache Hits
+  - Cache Misses
+  - Cache Write
+  - Cache Read
+  - Evicted Keys
+  - Expired Keys
+  - Total Keys
+- **Others.**
+  - Connected clients.
+  - Server Load
+  - Cache Latency
+  - Errors
+
+### Alert sample
+
+These alerts in this section are helpful for our case scenario and would probably will not suit your production needs.
+
+You can find a sample of alerts for Redis here: [Redis alerts](prometheus-rule-redis.yaml)
+
+Note: `PrometheusRule` is a custom resource definition provided by Prometheus
+Operator. You might have to change the *Metadata > Labels* section of this file
+to match your own set of labels to identify Prometheus.
+
+```bash
+kubectl apply -f prometheus-rule-redis.yaml
+```
+
