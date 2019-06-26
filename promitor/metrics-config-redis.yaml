@@ -11,92 +11,174 @@ metricDefaults:
   scraping:
     schedule: "0 * * ? * *"
 metrics:
-  - name: redis_cache_read
-    description: "The amount of data read from the cache in Megabytes per second (MB/s)."
-    resourceType: RedisCache
-    cacheName: cachejco
-    scraping:
-      schedule: "0 */2 * ? * *"
-    azureMetricConfiguration:
-      metricName: CacheRead
-      aggregation:
-        type: Average
-        interval: 00:01:00
-  - name: redis_cache_hits
-    description: "The number of successful key lookups during the specified reporting interval. This maps to keyspace_hits from the Redis INFO command."
-    resourceType: RedisCache
-    cacheName: cachejco
-    scraping:
-      schedule: "0 */2 * ? * *"
-    azureMetricConfiguration:
-      metricName: CacheHits
-      aggregation:
-        type: Average
-        interval: 00:01:00
-  - name: redis_cache_latency
-    description: "The number of failed key lookups during the specified reporting interval. This maps to keyspace_misses from the Redis INFO command."
-    resourceType: RedisCache
-    cacheName: cachejco
-    scraping:
-      schedule: "0 */2 * ? * *"
-    azureMetricConfiguration:
-      metricName: CacheMisses
-      aggregation:
-        type: Average
-        interval: 00:01:00
-  - name: redis_cache_write
-    description: "The amount of data written to the cache in Megabytes per second (MB/s) during the specified reporting interval."
-    resourceType: RedisCache
-    cacheName: cachejco
-    scraping:
-      schedule: "0 */2 * ? * *"
-    azureMetricConfiguration:
-      metricName: CacheWrite
-      aggregation:
-        type: Average
-        interval: 00:01:00
-  - name: redis_cache_connected_clients
+  - name: azure_redis_cache_connected_clients
     description: "The number of client connections to the cache during the specified reporting interval. This maps to connected_clients from the Redis INFO command."
     resourceType: RedisCache
-    cacheName: cachejco
-    scraping:
-      schedule: "0 */2 * ? * *"
+    cacheName: redis-cache-ecb4591a
     azureMetricConfiguration:
-      metricName: ConnectedClients
+      metricName: connectedclients
       aggregation:
         type: Average
         interval: 00:01:00
-  - name: redis_cache_errors
-    description: "Specific failures and performance issues that the cache could be experiencing during a specified reporting interval."
+  - name: azure_redis_total_commands_processed
+    description: "The total number of commands processed by the cache server during the specified reporting interval. This value maps to total_commands_processed from the Redis INFO command. Note that when Azure Cache for Redis is used purely for pub/sub there will be no metrics for Cache Hits, Cache Misses, Gets, or Sets, but there will be Total Operations metrics that reflect the cache usage for pub/sub operations."
     resourceType: RedisCache
-    cacheName: cachejco
-    scraping:
-      schedule: "0 */2 * ? * *"
+    cacheName: redis-cache-ecb4591a
     azureMetricConfiguration:
-      metricName: Errors
+      metricName: totalcommandsprocessed
       aggregation:
         type: Average
         interval: 00:01:00
-  - name: redis_cache_evicted_keys
+  - name: azure_redis_cache_hits
+    description: "The number of successful key lookups during the specified reporting interval. This maps to keyspace_hits from the Redis INFO command."
+    resourceType: RedisCache
+    cacheName: redis-cache-ecb4591a
+    azureMetricConfiguration:
+      metricName: cachehits
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_redis_cache_misses
+    description: "The number of failed key lookups during the specified reporting interval. This maps to keyspace_misses from the Redis INFO command. Cache misses do not necessarily mean there is an issue with the cache. For example, when using the cache-aside programming pattern, an application looks first in the cache for an item. If the item is not there (cache miss), the item is retrieved from the database and added to the cache for next time. Cache misses are normal behavior for the cache-aside programming pattern. If the number of cache misses is higher than expected, examine the application logic that populates and reads from the cache. If items are being evicted from the cache due to memory pressure then there may be some cache misses, but a better metric to monitor for memory pressure would be Used Memory or Evicted Keys."
+    resourceType: RedisCache
+    cacheName: redis-cache-ecb4591a
+    azureMetricConfiguration:
+      metricName: cachemisses
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_redis_cache_get_commands
+    description: "The number of get operations from the cache during the specified reporting interval. This value is the sum of the following values from the Redis INFO all command: cmdstat_get, cmdstat_hget, cmdstat_hgetall, cmdstat_hmget, cmdstat_mget, cmdstat_getbit, and cmdstat_getrange, and is equivalent to the sum of cache hits and misses during the reporting interval."
+    resourceType: RedisCache
+    cacheName: redis-cache-ecb4591a
+    azureMetricConfiguration:
+      metricName: getcommands
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_redis_cache_set_commands
+    description: "The number of set operations to the cache during the specified reporting interval. This value is the sum of the following values from the Redis INFO all command: cmdstat_set, cmdstat_hset, cmdstat_hmset, cmdstat_hsetnx, cmdstat_lset, cmdstat_mset, cmdstat_msetnx, cmdstat_setbit, cmdstat_setex, cmdstat_setrange, and cmdstat_setnx."
+    resourceType: RedisCache
+    cacheName: redis-cache-ecb4591a
+    azureMetricConfiguration:
+      metricName: setcommands
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_redis_cache_operations_per_second
+    description: "The total number of commands processed per second by the cache server during the specified reporting interval. This value maps to instantaneous_ops_per_sec from the Redis INFO command."
+    resourceType: RedisCache
+    cacheName: redis-cache-ecb4591a
+    azureMetricConfiguration:
+      metricName: operationsPerSecond
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_redis_cache_evicted_keys
     description: "The number of items evicted from the cache during the specified reporting interval due to the maxmemory limit. This maps to evicted_keys from the Redis INFO command."
     resourceType: RedisCache
-    cacheName: cachejco
-    scraping:
-      schedule: "0 */2 * ? * *"
+    cacheName: redis-cache-ecb4591a
     azureMetricConfiguration:
-      metricName: EvictedKeys
+      metricName: evictedkeys
       aggregation:
         type: Average
         interval: 00:01:00
-  - name: redis_cache_expired_keys
+  - name: azure_redis_cache_total_keys
+    description: "The maximum number of keys in the cache during the past reporting time period. This maps to keyspace from the Redis INFO command. Due to a limitation of the underlying metrics system, for caches with clustering enabled, Total Keys returns the maximum number of keys of the shard that had the maximum number of keys during the reporting interval."
+    resourceType: RedisCache
+    cacheName: redis-cache-ecb4591a
+    azureMetricConfiguration:
+      metricName: totalkeys
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_redis_cache_expired_keys
     description: "The number of items expired from the cache during the specified reporting interval. This value maps to expired_keys from the Redis INFO command."
     resourceType: RedisCache
-    cacheName: cachejco
-    scraping:
-      schedule: "0 */2 * ? * *"
+    cacheName: redis-cache-ecb4591a
     azureMetricConfiguration:
-      metricName: ExpiredKeys
+      metricName: expiredkeys
       aggregation:
         type: Average
         interval: 00:01:00
-  
+  - name: azure_redis_cache_used_memory
+    description: "The amount of cache memory used for key/value pairs in the cache in MB during the specified reporting interval. This value maps to used_memory from the Redis INFO command. This does not include metadata or fragmentation."
+    resourceType: RedisCache
+    cacheName: redis-cache-ecb4591a
+    azureMetricConfiguration:
+      metricName: usedmemory
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_redis_cache_used_memory_percentage
+    description: "The % of total memory that is being used during the specified reporting interval. This references the used_memory value from the Redis INFO command to calculate the percentage."
+    resourceType: RedisCache
+    cacheName: redis-cache-ecb4591a
+    azureMetricConfiguration:
+      metricName: usedmemorypercentage
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_redis_cache_used_memory_rss
+    description: "The amount of cache memory used in MB during the specified reporting interval, including fragmentation and metadata. This value maps to used_memory_rss from the Redis INFO command."
+    resourceType: RedisCache
+    cacheName: redis-cache-ecb4591a
+    azureMetricConfiguration:
+      metricName: usedmemoryRss
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_redis_cache_server_load
+    description: "The percentage of cycles in which the Redis server is busy processing and not waiting idle for messages. If this counter reaches 100 it means the Redis server has hit a performance ceiling and the CPU can't process work any faster. If you are seeing high Redis Server Load then you will see timeout exceptions in the client. In this case you should consider scaling up or partitioning your data into multiple caches."
+    resourceType: RedisCache
+    cacheName: redis-cache-ecb4591a
+    azureMetricConfiguration:
+      metricName: serverLoad
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_redis_cache_write
+    description: "The amount of data written to the cache in Megabytes per second (MB/s) during the specified reporting interval."
+    resourceType: RedisCache
+    cacheName: redis-cache-ecb4591a
+    azureMetricConfiguration:
+      metricName: cacheWrite
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_redis_cache_read
+    description: "The amount of data read from the cache in Megabytes per second (MB/s)."
+    resourceType: RedisCache
+    cacheName: redis-cache-ecb4591a
+    azureMetricConfiguration:
+      metricName: cacheRead
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_redis_cache_percent_processor_time
+    description: "The CPU utilization of the Azure Cache for Redis server as a percentage during the specified reporting interval. This value maps to the operating system \Processor(_Total)\ Processor Time performance counter."
+    resourceType: RedisCache
+    cacheName: redis-cache-ecb4591a
+    azureMetricConfiguration:
+      metricName: percentProcessorTime
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_redis_cache_latency
+    description: "The number of failed key lookups during the specified reporting interval. This maps to keyspace_misses from the Redis INFO command."
+    resourceType: RedisCache
+    cacheName: redis-cache-ecb4591a
+    azureMetricConfiguration:
+      metricName: cacheLatency
+      aggregation:
+        type: Average
+        interval: 00:01:00
+  - name: azure_redis_cache_errors
+    description: "Specific failures and performance issues that the cache could be experiencing during a specified reporting interval."
+    resourceType: RedisCache
+    cacheName: redis-cache-ecb4591a
+    azureMetricConfiguration:
+      metricName: errors
+      aggregation:
+        type: Average
+        interval: 00:01:00
