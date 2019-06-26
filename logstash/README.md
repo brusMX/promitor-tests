@@ -2,9 +2,14 @@
 
 ## Kubernetes Logstash
 
+Edit the `logstash/helm/logstash-values.yaml` file and add in your connection strings.
+
+Install the helm charts:
+```
 helm install --name elasticsearch stable/elasticsearch
-helm install stable/logstash --name logstash -f helm/values.yaml
+helm install stable/logstash --name logstash -f helm/logstash-values.yaml
 helm install --name kibana stable/kibana -f helm/kibana-values.yaml
+```
 
 Get the current pods:
 ```
