@@ -1,0 +1,18 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  labels:
+    prometheus: prometheus
+  name: promitor-service-monitor
+  namespace: admin
+spec:
+  endpoints:
+  - interval: 30s
+    path: /metrics
+    port: "http"
+  namespaceSelector:
+    matchNames:
+    - admin
+  selector:
+    matchLabels:
+      app: promitor-agent-scraper
