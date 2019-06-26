@@ -1,0 +1,56 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  labels:
+    prometheus: prometheus-backends
+    role: alert-rules
+  name: azure-monitoring-pgsql-rules
+  namespace: admin
+spec:
+  groups:
+  - name: azure-monitoring-pgsql-rules
+    rules:
+
+    - alert: PostgreSQL_FailedConnectionGrowing
+      annotations:
+        description: |
+          The number of failed connection is growing on the PostgreSql server 
+          {{$labels.resource_uri}}.
+        title: PostgreSQL {{$labels.resource_uri}} failed connection is growing.
+        runbook: <URL for investigation/resolution procedure>
+      expr: |-
+        deriv(
+          azmon_pgsql_connections_failed_total[5m]
+        ) > 0.1
+      for: 5m
+      labels:
+        severity: warning
+
+    - alert: PostgreSQL_StorageMostlyFullIn4h
+      annotations:
+        description: |
+          Storage for PostgreSql server {{$labels.resource_uri}} will be nearly
+          full in 4h (at the current rate).
+        title: PostgreSQL {{$labels.resource_uri}} will be full (> 95%) in 4 hours.
+        runbook: <URL for investigation/resolution procedure>
+      expr: |-
+        predict_linear(
+          azmon_pgsql_storage_percent[30m],
+          4 * 3600
+        ) >= 95
+      for: 5m
+      labels:
+        severity: warning
+
+    - alert: PostgreSQL_HighCpuUsage
+      annotations:
+        description: |
+          CPU usage for PostgreSql server {{$labels.resource_uri}} is too high.
+          This can have impact on your applications response time.
+        title: PostgreSQL {{$labels.resource_uri}} CPU is over 90%
+        runbook: <URL for investigation/resolution procedure>
+      expr: |-
+        azmon_pgsql_cpu_percent > 90
+      for: 5m
+      labels:
+        severity: warning
