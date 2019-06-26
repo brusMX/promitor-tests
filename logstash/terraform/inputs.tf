@@ -15,3 +15,11 @@ variable "subscription_id" {
 variable "tenant_id" {
 	type = "string"
 }
+
+variable "kubernetes_client_id" {
+	type = "string"
+}
+
+variable "kubernetes_client_secret" {
+	type = "string"
+}

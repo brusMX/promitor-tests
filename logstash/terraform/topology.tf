@@ -32,8 +32,12 @@ resource "azurerm_storage_blob" "logging" {
   type = "block"
 }
 
+resource "random_id" "eventhub" {
+  byte_length = 8
+}
+
 resource "azurerm_eventhub_namespace" "logging" {
-  name                = "LoggingEventHubNamespace"
+  name                = "LoggingEventHubNamespace-${lower(random_id.eventhub.hex)}"
   location            = "${azurerm_resource_group.logging.location}"
   resource_group_name = "${azurerm_resource_group.logging.name}"
   sku                 = "Standard"
