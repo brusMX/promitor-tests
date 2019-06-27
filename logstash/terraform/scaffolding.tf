@@ -94,7 +94,7 @@ resource "random_id" "function_storage_name" {
 }
 
 resource "azurerm_storage_account" "function_storage" {
-  name                     = "functionsapp${lower(random_id.function_storage_name.hex)}"
+  name                     = "functionsapp2019"
   resource_group_name      = "${azurerm_resource_group.scaffolded_logging_services.name}"
   location                 = "${azurerm_resource_group.scaffolded_logging_services.location}"
   account_tier             = "Standard"
