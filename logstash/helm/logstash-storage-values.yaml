@@ -1,0 +1,30 @@
+image: 
+  repository: cnadolny/logstash
+  tag: 7.1.1
+
+elasticsearch:
+  host: elasticsearch-client.default.svc.cluster.local
+  port: 9200
+
+inputs:
+  main: |-
+    input
+    {
+        azureblob
+        {
+            storage_account_name => "function_storage_account"
+            storage_access_key => "function_storage_account_access_key"
+            container => "function_storage_account_container"
+        }
+    }
+
+outputs:
+  main: |-
+    output {
+      elasticsearch {
+        hosts => ["elasticsearch-client.default.svc:9200"]
+        manage_template => false
+        index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
+        document_type => "%{[@metadata][type]}"
+      }
+    }

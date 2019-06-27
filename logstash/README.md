@@ -2,12 +2,30 @@
 
 ## Kubernetes Logstash
 
-Edit the `logstash/helm/logstash-values.yaml` file and add in your connection strings.
+Edit the `logstash/helm/logstash-values.yaml` file and add in your connection strings for your Event Hubs.
+
+If you need logs from Azure Functions, you will need to enable continuous exporting of data from Application Insights to a storage account, and then use the Azure `logstash-input-azureblob` plugin to push logs from the storage account to your Logstash instance. Edit the `logstash/helm/logstash-storage-value.yaml` file with your storage account information.
+
+Since this plugin does not come installed by default on the `docker.elastic.co/logstash/logstash-oss` image, we've included a custom image that installs the module for you. 
+
+To create your own Docker image:
+```
+docker build . -t <username>/logstash:<tag>
+docker push <username>/logstash:<tag>
+```
+
+and then update the following fields in `logstash/helm/logstash-storage-value.yaml`:
+```
+image: 
+  repository: <username>/logstash
+  tag: <tag>
+```
 
 Install the helm charts:
 ```
 helm install --name elasticsearch stable/elasticsearch
 helm install stable/logstash --name logstash -f helm/logstash-values.yaml
+helm install stable/logstash --name logstash-storage -f helm/logstash-storage-values.yaml
 helm install --name kibana stable/kibana -f helm/kibana-values.yaml
 ```
 
