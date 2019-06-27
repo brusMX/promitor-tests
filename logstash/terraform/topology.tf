@@ -172,3 +172,10 @@ resource "azurerm_monitor_diagnostic_setting" "aks-logging" {
     }
   }
 }
+
+resource "azurerm_application_insights" "appinsights" {
+  name                = "appinsights"
+  resource_group_name = "${azurerm_resource_group.logging.name}"
+  location            = "${var.region}"
+  application_type    = "Web"
+}

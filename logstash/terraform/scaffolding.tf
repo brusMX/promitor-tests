@@ -31,6 +31,10 @@ resource "azurerm_postgresql_server" "logging_postgresql" {
   ssl_enforcement              = "Disabled"
 }
 
+data "azurerm_monitor_diagnostic_categories" "postgres_logs" {
+  resource_id = "${azurerm_postgresql_server.logging_postgresql.id}"
+}
+
 resource "random_id" "logging_redis" {
   byte_length = 8
 }
@@ -46,6 +50,10 @@ resource "azurerm_redis_cache" "logging_redis" {
   minimum_tls_version = "1.2"
 
   redis_configuration {}
+}
+
+data "azurerm_monitor_diagnostic_categories" "redis_logs" {
+  resource_id = "${azurerm_redis_cache.logging_redis.id}"
 }
 
 resource "random_id" "logging_kubernetes" {
@@ -85,38 +93,42 @@ resource "local_file" "kube_config" {
   filename = "kube-cluster-${lower(random_id.logging_kubernetes.hex)}"
 }
 
-data "azurerm_monitor_diagnostic_categories" "postgres_logs" {
-  resource_id = "${azurerm_postgresql_server.logging_postgresql.id}"
-}
-
-output "postgres_logs" {
-  value = "${data.azurerm_monitor_diagnostic_categories.postgres_logs.logs}"
-}
-
-output "postgres_metrics" {
-  value = "${data.azurerm_monitor_diagnostic_categories.postgres_logs.metrics}"
-}
-
-data "azurerm_monitor_diagnostic_categories" "redis_logs" {
-  resource_id = "${azurerm_redis_cache.logging_redis.id}"
-}
-
-output "redis_logs" {
-  value = "${data.azurerm_monitor_diagnostic_categories.redis_logs.logs}"
-}
-
-output "redis_metrics" {
-  value = "${data.azurerm_monitor_diagnostic_categories.redis_logs.metrics}"
-}
-
 data "azurerm_monitor_diagnostic_categories" "aks_logs" {
   resource_id = "${azurerm_kubernetes_cluster.logging_kubernetes.id}"
 }
 
-output "aks_logs" {
-  value = "${data.azurerm_monitor_diagnostic_categories.aks_logs.logs}"
+resource "azurerm_storage_account" "function_storage" {
+  name                     = "functionsapp"
+  resource_group_name      = "${azurerm_resource_group.scaffolded_logging_services.name}"
+  location                 = "${azurerm_resource_group.scaffolded_logging_services.location}"
+  account_tier             = "Standard"
+  account_replication_type = "LRS"
 }
 
-output "aks_metrics" {
-  value = "${data.azurerm_monitor_diagnostic_categories.aks_logs.metrics}"
+resource "azurerm_app_service_plan" "functionplan" {
+  name                = "azure-functions-service-plan"
+  resource_group_name = "${azurerm_resource_group.scaffolded_logging_services.name}"
+  location            = "${azurerm_resource_group.scaffolded_logging_services.location}"
+  kind                = "FunctionApp"
+
+  sku {
+    tier = "Dynamic"
+    size = "Y1"
+  }
+}
+
+resource "random_id" "functionapp" {
+  byte_length = 8
+}
+
+resource "azurerm_function_app" "functionapp" {
+  name                      = "azure-functions-${lower(random_id.functionapp.hex)}"
+  resource_group_name       = "${azurerm_resource_group.scaffolded_logging_services.name}"
+  location                  = "${azurerm_resource_group.scaffolded_logging_services.location}"
+  app_service_plan_id       = "${azurerm_app_service_plan.functionplan.id}"
+  storage_connection_string = "${azurerm_storage_account.function_storage.primary_connection_string}"
+
+  app_settings = {
+    "APPINSIGHTS_INSTRUMENTATIONKEY" = "${azurerm_application_insights.appinsights.instrumentation_key}"
+  }
 }
