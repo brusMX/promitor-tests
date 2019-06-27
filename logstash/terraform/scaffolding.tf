@@ -67,17 +67,9 @@ resource "azurerm_kubernetes_cluster" "logging_kubernetes" {
   dns_prefix          = "kube-cluster-${lower(random_id.logging_kubernetes.hex)}"
 
   agent_pool_profile {
-    name            = "default"
-    count           = 1
-    vm_size         = "Standard_D1_v2"
-    os_type         = "Linux"
-    os_disk_size_gb = 30
-  }
-
-  agent_pool_profile {
-    name            = "pool2"
-    count           = 1
-    vm_size         = "Standard_D2_v2"
+    name            = "pool1"
+    count           = 2
+    vm_size         = "Standard_D2_v3"
     os_type         = "Linux"
     os_disk_size_gb = 30
   }

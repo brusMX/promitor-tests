@@ -20,8 +20,10 @@ data "template_file" "logstash-values" {
 
 resource "null_resource" "install_tiller" {
   provisioner "local-exec" {
-    command = "helm init --kubeconfig kube-cluster-${lower(random_id.logging_kubernetes.hex)}"
+    command = "helm init --kubeconfig kube-cluster-${lower(random_id.logging_kubernetes.hex)} --wait"
   }
+
+  depends_on = ["local_file.kube_config"]
 }
 
 resource "local_file" "elasticsearch-values" {
@@ -29,7 +31,7 @@ resource "local_file" "elasticsearch-values" {
   filename = "elasticsearch-values.yaml"
 
   provisioner "local-exec" {
-    command = "helm install --kubeconfig kube-cluster-${lower(random_id.logging_kubernetes.hex)} --name elasticsearch stable/elasticsearch -f elasticsearch-values.yaml"
+    command = "helm install --kubeconfig kube-cluster-${lower(random_id.logging_kubernetes.hex)} --name elasticsearch stable/elasticsearch -f elasticsearch-values.yaml --wait"
   }
 
   depends_on = ["null_resource.install_tiller"]
@@ -40,7 +42,7 @@ resource "local_file" "kibana-values" {
   filename = "kibana-values.yaml"
 
   provisioner "local-exec" {
-    command = "helm install --kubeconfig kube-cluster-${lower(random_id.logging_kubernetes.hex)} --name kibana stable/kibana -f kibana-values.yaml"
+    command = "helm install --kubeconfig kube-cluster-${lower(random_id.logging_kubernetes.hex)} --name kibana stable/kibana -f kibana-values.yaml --wait"
   }
 
   depends_on = ["null_resource.install_tiller"]
@@ -51,7 +53,7 @@ resource "local_file" "logstash-values" {
   filename = "logstash-values.yaml"
 
   provisioner "local-exec" {
-    command = "helm install --kubeconfig kube-cluster-${lower(random_id.logging_kubernetes.hex)} --name logstash stable/logstash -f logstash-values.yaml"
+    command = "helm install --kubeconfig kube-cluster-${lower(random_id.logging_kubernetes.hex)} --name logstash stable/logstash -f logstash-values.yaml --wait"
   }
 
   depends_on = ["null_resource.install_tiller"]
