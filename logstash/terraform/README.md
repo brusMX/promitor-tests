@@ -2,13 +2,21 @@
 
 Using terraform, you can spawn multiples services, and get the logs using an Eventhub.
 
-That terraform set of files will spawn a Postgresql, a Redis and a Kubernetes cluster. Then the logs will be collected by 3 differents Eventhub, then logstash can scrap the eventhubs and send the logs to elasticsearch.
+That terraform set of files will spawn a Postgresql, a Redis and a Kubernetes cluster. Then the logs will be collected by 3 differents Eventhub, logstash can scrap the eventhubs and send the logs to elasticsearch.
+
+
+## Prerequistes
+
+You need to have **Terraform** and **Helm** executables in one of the PATH directory (/bin, /usr/local/bin, ...).
+
+Azure CLI must be installed.
 
 
 ## Organization
 
 ```
   inputs.tf       -> mandatory and facultatives variables
+  output.tf       -> outputs from terraform
   providers.tf    -> azure provider configuration
   scaffolding.tf  -> deployment of services for testing (postgres, redis, k8s)
   topology.tf     -> eventhub
@@ -47,7 +55,7 @@ Optional variables:
  - region
  - resource_group
 
-Terraform will generate a kubeconfig file to provide credentials to connect on the kubernetes, the file is located in the current working directory and is named after the kubernetes cluster name.
+Terraform will generate a kubeconfig file to provide credentials to connect to kubernetes, the file is located in the current working directory and is named after the kubernetes cluster name.
 
 you can test the kubernetes cluster connectivity with this following command
 
