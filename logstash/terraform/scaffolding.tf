@@ -110,6 +110,7 @@ resource "azurerm_app_service_plan" "functionplan" {
   resource_group_name = "${azurerm_resource_group.scaffolded_logging_services.name}"
   location            = "${azurerm_resource_group.scaffolded_logging_services.location}"
   kind                = "FunctionApp"
+  reserved            = true
 
   sku {
     tier = "Dynamic"
@@ -127,6 +128,14 @@ resource "azurerm_function_app" "functionapp" {
   location                  = "${azurerm_resource_group.scaffolded_logging_services.location}"
   app_service_plan_id       = "${azurerm_app_service_plan.functionplan.id}"
   storage_connection_string = "${azurerm_storage_account.function_storage.primary_connection_string}"
+  enable_builtin_logging    = true
+  enabled                   = true
+  https_only                = true
+  version                   = "~2"
+
+  site_config {
+    use_32_bit_worker_process = false
+  }
 
   app_settings = {
     "APPINSIGHTS_INSTRUMENTATIONKEY" = "${azurerm_application_insights.appinsights.instrumentation_key}"
