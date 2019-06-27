@@ -37,7 +37,7 @@ Warning Alerts can be set up most informally for informative purposes, and on to
 
 **Warning**
 
-Alerts set with label "warning" are handled as Slack messages only: they don't
+Alerts set with label "warning" are handled as IM messages only: they don't
 go to our paging management tool of choice.
 So they are mostly informational.
 
@@ -52,8 +52,8 @@ alerts.
 
 **Critical**
 
-Alerts set with label "critial" are handled as Slack messages but they are also
-sent to our paging managemet tool: those will definitiely ask for an operator
+Alerts set with label "critical" are handled as IM messages but they are also
+sent to our paging management tool: those will definitiely ask for an operator
 to take a look and fix the issue.
 
 We can use those alerts as part of the "status aggregation" alert: your service
