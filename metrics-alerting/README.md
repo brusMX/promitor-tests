@@ -10,17 +10,19 @@ For this repository we will focus on 3 popular services:
 - [A word about interesting metrics](#A-word-about-interesting-metrics)
   - [Services in this sample](#Services-in-this-sample)
   - [Alerting](#Alerting)
+    - [About severities](#About-severities)
   - [Azure PostgreSQL](#Azure-PostgreSQL)
     - [Insights on metrics](#Insights-on-metrics)
     - [Alert sample](#Alert-sample)
-      - [About severities](#About-severities)
-    - [PostgreSql](#PostgreSql)
-      - [PostgreSql - High CPU usage](#PostgreSql---High-CPU-usage)
-      - [PostgreSql - number of failed connection grows significantly](#PostgreSql---number-of-failed-connection-grows-significantly)
-      - [PostgreSql - storage will be full in roughly 4 hours](#PostgreSql---storage-will-be-full-in-roughly-4-hours)
+      - [High CPU usage](#High-CPU-usage)
+      - [Number of failed connection grows significantly](#Number-of-failed-connection-grows-significantly)
+      - [Storage will be full in roughly 4 hours](#Storage-will-be-full-in-roughly-4-hours)
   - [Azure Redis](#Azure-Redis)
     - [Insights on metrics](#Insights-on-metrics-1)
     - [Alert sample](#Alert-sample-1)
+      - [High CPU usage](#High-CPU-usage-1)
+      - [High server load](#High-server-load)
+      - [Errors detected](#Errors-detected)
 
 
 ## Alerting
@@ -31,6 +33,35 @@ Warning Alerts can be set up most informally for informative purposes, and on to
 
 - [Google's SRE book - (Chapter 5) Alerting on SLO](https://landing.google.com/sre/workbook/chapters/alerting-on-slos/)
 
+### About severities
+
+**Warning**
+
+Alerts set with label "warning" are handled as Slack messages only: they don't
+go to our paging management tool of choice.
+So they are mostly informational.
+
+Also we can display those in Grafana dashboards since they are available in the
+`ALERTS` metric and they can also be part of a kind of "status aggregation"
+alert: you can consider your service in "yellow" status if there is at least one
+warning alert.
+
+We strongly recommend to have a runbook URL set for such alerts to tell about
+how you can investigate & resolve the issue but we don't enforce it on warning
+alerts.
+
+**Critical**
+
+Alerts set with label "critial" are handled as Slack messages but they are also
+sent to our paging managemet tool: those will definitiely ask for an operator
+to take a look and fix the issue.
+
+We can use those alerts as part of the "status aggregation" alert: your service
+is in red status if here is at least one critical alert.
+
+For those we enforce the presence if a runbook URL: an operator must hae a
+documentation on how to investigate & resolve the issue described by the alert.
+
 ## Azure PostgreSQL
 
 **Interesting links:**
@@ -38,7 +69,6 @@ Warning Alerts can be set up most informally for informative purposes, and on to
 - [Metrics exposed by Azure Monitor (docs)](https://docs.microsoft.com/en-us/azure/azure-monitor/platform/metrics-supported#microsoftdbforpostgresqlservers)
 - [Monitor and Tune azure PostgreSQL](https://docs.microsoft.com/en-us/azure/postgresql/concepts-monitoring)
 - [Datadog: Key metrics for PostgreSQL monitoring](https://www.datadoghq.com/blog/postgresql-monitoring/)
-
 
 ### Insights on metrics
 
@@ -78,37 +108,6 @@ to match your own set of labels. This section is about telling the Prometheus Op
 controller about which Prometheus must handle the alerts described in the
 `PrometheusRule` object.
 
-#### About severities
-
-**Warning**
-
-Alerts set with label "warning" are handled as Slack messages only: they don't
-go to our paging management tool of choice.
-So they are mostly informational.
-
-Also we can display those in Grafana dashboards since they are available in the
-`ALERTS` metric and they can also be part of a kind of "status aggregation"
-alert: you can consider your service in "yellow" status if there is at least one
-warning alert.
-
-We strongly recommend to have a runbook URL set for such alerts to tell about
-how you can investigate & resolve the issue but we don't enforce it on warning
-alerts.
-
-**Critical**
-
-Alerts set with label "critial" are handled as Slack messages but they are also
-sent to our paging managemet tool: those will definitiely ask for an operator
-to take a look and fix the issue.
-
-We can use those alerts as part of the "status aggregation" alert: your service
-is in red status if here is at least one critical alert.
-
-For those we enforce the presence if a runbook URL: an operator must hae a
-documentation on how to investigate & resolve the issue described by the alert.
-
-### PostgreSql
-
 You can find a sample of alerts for PostgreSql here: [PostgreSql alerts](prometheus-rule-pgsql.yaml)
 
 To deploy those alerts in your Prometheus:
@@ -117,7 +116,7 @@ To deploy those alerts in your Prometheus:
 kubectl apply -f prometheus-rule-pgsql.yaml
 ```
 
-#### PostgreSql - High CPU usage
+#### High CPU usage
 
 This alert is meant to warn us when our database server is burning all its CPU
 for an unusual period of time.
@@ -144,7 +143,7 @@ This alert is set as a *warning* since there is no operation that has been
 identiied to solve this issue. This is only informational so people can see it on
 Slack or dashboards.
 
-#### PostgreSql - number of failed connection grows significantly
+#### Number of failed connection grows significantly
 
 This alert is meant to tell us if our applications are failing to connect
 properly to the database server.
@@ -176,7 +175,7 @@ probably have to adjust it for your own use case.
 Since there are no operation identified to solve this issue: the alert is kept
 in warning severity.
 
-#### PostgreSql - storage will be full in roughly 4 hours
+#### Storage will be full in roughly 4 hours
 
 This alert is meant to warn us if the storage is expecting to be full in the
 near future.
@@ -256,3 +255,64 @@ to match your own set of labels to identify Prometheus.
 kubectl apply -f prometheus-rule-redis.yaml
 ```
 
+#### High CPU usage
+
+This alert is meant to warn us if our Redis clusters are burning all their CPU
+for an unusual period of time.
+
+Expression:
+
+```yaml
+expr: |
+  azure_redis_cache_percent_processor_time > 80
+for: 5m
+labels:
+  severity: warning
+```
+
+As for the CPU alert for PostgreSql this one is pretty straightforward.
+Ans as usual we keep it as a warning since there is no operation defined to
+solce this issue.
+
+#### High server load
+
+This alert is meant to warn us if our Redis clusters are under heavy load.
+
+Expression:
+
+```yaml
+expr: |
+  azure_redis_cache_server_load > 80
+for: 5m
+labels:
+  severity: warning
+```
+
+This alert is based on a metric given by Redis itself and is close to be
+expressed in a percent: if your server reach 100 then it cannot process new
+requests anymore.
+
+#### Errors detected
+
+This alert is meant to warn us if some errors have been detected by Azure on our
+Redis clusters.
+
+Expression:
+
+```yaml
+expr: |-
+  azure_redis_cache_errors > 0
+for: 1m
+labels:
+  severity: warning
+```
+
+This alert relies also on Redis output processed by Azure Monitor so lots of 
+different errors are collected & aggregated in this metric.
+
+As a first sample we want to get informed if there is any error detected but this
+threshold will definitiely be adapted in the future.
+
+Also as soon as we can refine the metric and pick only some of the dimensions
+available in this metric we will focus on specific error types instead of
+aggregating all of them.
